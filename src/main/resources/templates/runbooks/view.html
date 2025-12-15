@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body th:replace="~{fragments/layout :: layout('Runbook', ~{::section})}">
+<section>
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3 m-0">Runbook #<span th:text="${runbook.id}">1</span></h1>
+    <div class="d-flex gap-2">
+      <a class="btn btn-sm btn-outline-secondary" th:href="@{/runbooks}">Volver</a>
+      <a class="btn btn-sm btn-primary" th:href="@{|/runbooks/${runbook.id}/edit|}">Editar</a>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="h5" th:text="${runbook.name}">name</h2>
+      <div class="mb-3">
+        <span class="badge text-bg-dark" th:text="${runbook.serviceName}">svc</span>
+        <span class="badge text-bg-light text-dark" th:if="${runbook.lastReviewedAt != null}">
+          Revisado: <span th:text="${runbook.lastReviewedAt}">-</span>
+        </span>
+      </div>
+
+      <h3 class="h6">Steps</h3>
+      <pre class="p-3 bg-light border rounded" th:text="${runbook.steps}">steps</pre>
+
+      <div th:if="${runbook.commands != null && !#strings.isEmpty(runbook.commands)}">
+        <h3 class="h6">Commands</h3>
+        <pre class="p-3 bg-light border rounded" th:text="${runbook.commands}">commands</pre>
+      </div>
+
+      <hr>
+      <div class="small text-muted">
+        Creado: <span th:text="${runbook.createdAt}">-</span> |
+        Actualizado: <span th:text="${runbook.updatedAt}">-</span>
+      </div>
+
+      <div class="mt-3">
+        <form th:action="@{|/runbooks/${runbook.id}/delete|}" method="post">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <button class="btn btn-outline-danger" type="submit">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

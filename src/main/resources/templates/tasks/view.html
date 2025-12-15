@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body th:replace="~{fragments/layout :: layout('Task', ~{::section})}">
+<section>
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3 m-0">Task #<span th:text="${task.id}">1</span></h1>
+    <div class="d-flex gap-2">
+      <a class="btn btn-sm btn-outline-secondary" th:href="@{/tasks}">Volver</a>
+      <a class="btn btn-sm btn-primary" th:href="@{|/tasks/${task.id}/edit|}">Editar</a>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="h5" th:text="${task.title}">Title</h2>
+
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <span class="badge"
+              th:classappend="${task.status.name() == 'DONE'} ? ' text-bg-success' : (${task.status.name() == 'DOING'} ? ' text-bg-warning' : ' text-bg-secondary')"
+              th:text="${task.status}">TODO</span>
+
+        <span class="badge"
+              th:classappend="${task.priority.name() == 'HIGH'} ? ' text-bg-danger' : (${task.priority.name() == 'MEDIUM'} ? ' text-bg-warning' : ' text-bg-info')"
+              th:text="${task.priority}">MEDIUM</span>
+
+        <span class="badge text-bg-dark" th:if="${task.dueDate != null}">
+          Vence: <span th:text="${task.dueDate}">2025-01-01</span>
+        </span>
+
+        <span class="badge text-bg-light text-dark"
+              th:if="${task.tags != null && !#strings.isEmpty(task.tags)}"
+              th:text="${task.tags}">tags</span>
+      </div>
+
+      <p class="text-muted" th:if="${task.description == null || #strings.isEmpty(task.description)}">Sin descripción.</p>
+      <p th:if="${task.description != null && !#strings.isEmpty(task.description)}"
+         th:text="${task.description}">desc</p>
+
+      <hr>
+      <div class="small text-muted">
+        Creado: <span th:text="${task.createdAt}">-</span> |
+        Actualizado: <span th:text="${task.updatedAt}">-</span>
+      </div>
+
+      <div class="mt-3">
+        <form th:action="@{|/tasks/${task.id}/delete|}" method="post">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <button class="btn btn-outline-danger" type="submit">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

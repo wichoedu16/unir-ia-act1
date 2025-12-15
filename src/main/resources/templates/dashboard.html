@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body th:replace="~{fragments/layout :: layout('Dashboard', ~{::section})}">
+<section>
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3 m-0">Dashboard</h1>
+    <div class="text-muted">Vista rápida de la operación (y del caos domesticado).</div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h2 class="h5">Tasks</h2>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge text-bg-secondary">TODO: <span th:text="${todoCount}">0</span></span>
+            <span class="badge text-bg-warning">DOING: <span th:text="${doingCount}">0</span></span>
+            <span class="badge text-bg-success">DONE: <span th:text="${doneCount}">0</span></span>
+            <span class="badge text-bg-danger">Vencidas: <span th:text="${overdueCount}">0</span></span>
+          </div>
+          <div class="mt-3">
+            <a class="btn btn-sm btn-outline-primary" th:href="@{/tasks}">Ir a Tasks</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h2 class="h5">Incidents (OPEN)</h2>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge text-bg-info">LOW: <span th:text="${openLow}">0</span></span>
+            <span class="badge text-bg-secondary">MEDIUM: <span th:text="${openMedium}">0</span></span>
+            <span class="badge text-bg-warning">HIGH: <span th:text="${openHigh}">0</span></span>
+            <span class="badge text-bg-danger">CRITICAL: <span th:text="${openCritical}">0</span></span>
+          </div>
+          <div class="mt-3">
+            <a class="btn btn-sm btn-outline-primary" th:href="@{/incidents}">Ir a Incidents</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mt-1">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h6">Atajos</h2>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-sm btn-outline-success" th:href="@{/tasks/new}">Nueva Task</a>
+            <a class="btn btn-sm btn-outline-success" th:href="@{/runbooks/new}">Nuevo Runbook</a>
+            <a class="btn btn-sm btn-outline-success" th:href="@{/incidents/new}">Nuevo Incident</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
